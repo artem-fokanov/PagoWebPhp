@@ -32,16 +32,21 @@
         <hr>
         <!-- <h3>Realiza el pago</h3> -->
         <input type="checkbox" name="ckbTerms" id="ckbTerms" onclick="visaNetEc3()"> <label for="ckbTerms">Acepto los <a href="#" target="_blank">Términos y condiciones</a></label>
-        <form id="frmVisaNet" action="http://localhost:8082/PagoWebPhp/finalizar.php?amount=<?php echo $amount;?>&purchaseNumber=<?php echo $purchaseNumber?>">
+        <form id="frmVisaNet" action="https://misc.zvu:8000/php/PagoWebPhp/finalizar.php?amount=<?php echo $amount;?>&purchaseNumber=<?php echo $purchaseNumber?>">
             <script src="<?php echo VISA_URL_JS?>" 
                 data-sessiontoken="<?php echo $sesion;?>"
                 data-channel="web"
                 data-merchantid="<?php echo VISA_MERCHANT_ID?>"
-                data-merchantlogo="http://localhost:8082/PagoWebPhp/assets/img/logo.png"
+                data-merchantlogo="https://misc.zvu:8000/php/PagoWebPhp/assets/img/logo.png"
                 data-purchasenumber="<?php echo $purchaseNumber;?>"
                 data-amount="<?php echo $amount; ?>"
                 data-expirationminutes="5"
-                data-timeouturl="http://localhost:8082/PagoWebPhp/"
+                data-timeouturl="https://misc.zvu:8000/php/PagoWebPhp/"
+                    data-recurrence="TRUE"
+                    data-recurrencetype="FIXED"
+                    data-recurrencefrequency="MONTHLY"
+                    data-recurrencemaxamount="12.00"
+                    data-recurrenceamount="1.00"
             ></script>
         </form>
     </div>

@@ -37,19 +37,41 @@
         return $response->sessionKey;
     }
 
+    function generateAntifraud($ip) {
+        return [
+            'clientIp' => $_SERVER['REMOTE_ADDR'],
+            'merchantDefineData' => [
+                'MDD4' => "mail@domain.com",
+                'MDD33' => "DNI",
+                'MDD34' => '87654321'
+            ]
+        ];
+    }
+
     function generateAuthorization($amount, $purchaseNumber, $transactionToken, $token) {
         $data = array(
-            'antifraud' => null,
+            'antifraud' => generateAntifraud($_REQUEST['REMOTE_ADDR']),
             'captureType' => 'manual',
             'channel' => 'web',
             'countable' => true,
+            'cardHolder' => [
+                'documentNumber' => '87788882',
+                'documentType' => '0'
+            ],
             'order' => array(
                 'amount' => $amount,
                 'currency' => 'PEN',
                 'purchaseNumber' => $purchaseNumber,
-                'tokenId' => $transactionToken
+                'tokenId' => $transactionToken,
+                'productId' => '123'
             ),
-            'recurrence' => null,
+            'recurrence' => [
+                'amount' => $amount,
+                'beneficiaryId' => '87788882',
+                'frequency' => 'MONTHLY',
+                'maxAmount' => "12.00",
+                'type' => 'FIXED'
+            ],
             'sponsored' => null
         );
         $json = json_encode($data);
