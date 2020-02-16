@@ -8,6 +8,25 @@
     $token = generateToken();
 
     $data = generateAuthorization($amount, $purchaseNumber, $transactionToken, $token);
+
+class ResponseIterator extends RecursiveIteratorIterator {
+    public function beginChildren()
+    {
+        parent::beginChildren();
+        $parent = $this->getDepth()-1;
+        $indent = str_repeat('   ', $parent);
+        echo "$indent ├ {$this->getSubIterator($parent)->key()}\n";
+    }
+
+    public function current()
+    {
+        $val = parent::current();
+        $key = $this->key();
+
+        $indent = str_repeat('   ', $this->getDepth());
+        return "$indent ├ $key = $val\n";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +89,20 @@
                 <?php
             }
         ?>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <p><b>Response:</b></p>
+                <pre>
+                    <?php
+                    $it = new RecursiveArrayIterator($data);
+                    $response = new ResponseIterator($it);
+
+                    foreach ($response as $param) {
+                        echo $param;
+                    } ?>
+                </pre>
+            </div>
+        </div>
     </div>
     
 </body>
